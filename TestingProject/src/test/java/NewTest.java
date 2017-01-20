@@ -6,24 +6,28 @@ import org.testng.annotations.AfterMethod;
 import static org.hamcrest.CoreMatchers.is;  
 import static org.hamcrest.MatcherAssert.assertThat;  
 import static org.hamcrest.core.IsEqual.equalTo;
+import resources.TestAPILocators;
+import utils.TestingFwk;
 
 public class NewTest {
-  WebDriver driver;
+  TestingFwk testingApi;
+  
   @Test()
   public void f() {
-	  
-	  driver.get("http://the-internet.herokuapp.com/login");  
-	  assertThat(driver.getTitle(), is(equalTo("The Internet")));  
-	     
+	  testingApi.initialize();
+	  testingApi.get("http://the-internet.herokuapp.com/login");
+	  assertThat(testingApi.getTitle(), is(equalTo("The Internet")));  
+	  testingApi.getElement("username", "ID").sendKeys("hola");
+	  testingApi.getElement("password", "ID").sendKeys("hola2");
   }
   @BeforeMethod
   public void beforeMethod() {
-	  driver = new FirefoxDriver();  
+	  testingApi = new TestingFwk(); 
   }
 
   @AfterMethod
   public void afterMethod() {
-	  driver.quit(); 
+	  testingApi.close(); 
   }
 
 
